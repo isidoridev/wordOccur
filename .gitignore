@@ -1,0 +1,4 @@
+node_modules
+.eslintrc.json
+results/*
+package-lock.json
