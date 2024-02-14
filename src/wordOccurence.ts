@@ -10,12 +10,11 @@ type WordSet = Record<string, number[]>
 let word_set: WordSet = {}
 
 // *Important sentence_list
-type SentenceList = string[]
-let sentence_list: SentenceList = []
+let sentence_list: string[] = []
 
 // Sorta Important
 interface TotalData {
-  sentence_list: SentenceList,
+  sentence_list: string[],
   word_set: WordSet, 
 }
 
@@ -25,8 +24,9 @@ function createTotalData(): TotalData {
 }
 
 
-/// if(c == ' ') processWord(c,line);
+// if(c == ' ') processWord(c,line);
 function processWord (word: string, line_count: number): void {
+  word = word.toLowerCase()
   if (!(word in word_set)) {
     word_set[word] = [line_count]
   } else {
@@ -57,8 +57,8 @@ function parseInputToFiles (input: string): void {
     else if (c === '.' || c === '?' || c === '!') { // End of sentence - collect last word and sentence.
       // console.log(3, c)
       processWord(prev_word, sentence_count)
-      sentence_list[sentence_count] = `${prev_sentence} ${prev_word}${c}`
-      console.log(sentence_list)
+      sentence_list[sentence_count] = `${prev_sentence}${prev_word}${c}`
+      //console.log(sentence_list)
       prev_sentence = ''
       prev_word = ''
       sentence_count += 1
@@ -75,12 +75,10 @@ function writeBlobToFile (path?: string) {
   if (path) {
     //
   } else {
-    // Generic Path ~/Writing/12WordsInContext/.json
-    // console.log('Executing writeBlobToFile')
     // Convert the array of objects to JSON string
     const jsonString = JSON.stringify(total_data, null, 2)
     fs.writeFileSync('./results/word_set.json', jsonString)
-    console.log('JSON file created successfully.')
+    //console.log('JSON file created successfully.')
   }
 }
 
@@ -93,8 +91,17 @@ function restoreWordSet (): void {
   total_data = JSON.parse(jsonString)
 }
 
-console.log(total_data.sentence_list)
+//console.log(total_data.sentence_list)
 
-//restoreWordSet()
+/// Given a full total_data, let's try select a word.
 
-//console.log(word_set);
+const test_input: string = "this" // substitute this
+
+function lineSelector(inp: string): void {
+  if(total_data.word_set[inp]) {
+    total_data.word_set[inp].forEach((line_n) => 
+    console.log(total_data.sentence_list[line_n]))
+  }
+}
+//console.log(total_data)
+lineSelector(test_input)
