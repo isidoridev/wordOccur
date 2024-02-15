@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/brace-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 const fs = require('fs')
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 //  Words In Context
 //  Parsing Input To Blob
@@ -103,5 +108,21 @@ function lineSelector(inp: string): void {
     console.log(total_data.sentence_list[line_n]))
   }
 }
-//console.log(total_data)
-lineSelector(test_input)
+
+async function questionCLI() {
+  return new Promise<void>((res) => {
+    rl.question('What word shall we search? ', (input: string) => {
+    lineSelector(input);
+    res()
+  });
+})}
+
+console.log(total_data.word_set)
+async function run() {
+  while(true) {
+    await questionCLI()
+    console.log()
+  }
+}
+
+run()
