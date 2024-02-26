@@ -1,10 +1,7 @@
 const fs = require('fs')
 const readline = require('readline');
 import { pdfToText } from "./pdftotext";
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+
 
 // Parsing and Output
 
@@ -37,7 +34,7 @@ function processWord (word: string, line_count: number): void {
     word_set.word.push(line_count)
   } else {
     word_set [word] = [line_count]
-    
+
   }
 }
 
@@ -97,9 +94,14 @@ function lineSelector(user_input: string): void {
   else {
       total_data.word_set[user_input]
 	  .forEach((line_n: number) => 
-	      console.log(total_data[sentence_list[line_n]]))
+	      console.log(total_data.sentence_list[line_n]))
   }
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 async function questionCLI() {
   return new Promise<void>((res) => {
